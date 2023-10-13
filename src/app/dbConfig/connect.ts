@@ -4,6 +4,7 @@ export const connect = (): void => {
   try {
     mongoose.connect(process.env.DATABASE_URL!);
     const connection = mongoose.connection;
+    // console.log(mongoose.connect, "test");
     connection.on("connected", () => {
       console.log("connected! ");
     });
