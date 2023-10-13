@@ -11,7 +11,11 @@ export default function Page() {
   const user = getUser();
   const path = genarateOrginBasedOnEnv();
   const sentUserData = (data: any) => {
-    axios.get(`${path}/api/users`).then((r) => console.log(r));
+    console.log(`${path}/api/users`);
+    axios
+      .post(`http://localhost:3000/api/users/post`, data)
+      .then((r) => console.log(r))
+      .catch((e) => console.log(e));
   };
 
   console.log(user);
