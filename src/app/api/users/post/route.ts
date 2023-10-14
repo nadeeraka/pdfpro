@@ -1,26 +1,36 @@
 import { connect } from "@/app/dbConfig/connect";
+import User from "@/models/users";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   await connect();
-  //   console.log(data, "test2");
   const reqBody = await request.json();
   const { email, id, given_name, family_name } = reqBody;
-  console.log(
-    email,
+
+  // check user exist
+  const user = await User.findOne({ email });
+  if (user) {
+    return NextResponse.json({ error: "user already exists!" });
+  }
+
+  //    save user data
+
+  const newUser = new User({
     id,
+    email,
     given_name,
     family_name,
-    "888888888888888888888888888888888888888888888888888888888"
-  );
-  const response = NextResponse.json(
-    {
-      message: "Logout success!",
-      success: true,
-    },
-    { status: 200 }
-  );
-  console.log("ok");
+  });
 
-  return response;
+  try {
+    await newUser.save();
+    console.log(newUser);
+
+    NextResponse.json(
+      { message: "New user create success!  ", success: true, newUser },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 };
