@@ -1,37 +1,36 @@
 import axios from "axios";
-import { genarateOrginBasedOnEnv } from "../main";
+import { generateOriginBasedOnEnv } from "../main";
 
-const path = genarateOrginBasedOnEnv();
+const path = generateOriginBasedOnEnv();
 
 const queryApi = async (
   uri: string,
   data: any,
-  isPost: boolean,
+  method: "GET" | "POST",
   needData = false
 ) => {
   let res: any = "";
-  if (isPost) {
-    res = await axios.post(`${path}/${uri}`, data);
-  } else {
-    res = await axios.get(`${path}/${uri}`);
+
+  switch (method) {
+    case "POST":
+      res = await axios.post(`${path}/${uri}`, data);
+      break;
+    case "GET":
+      res = await axios.get(`${path}/${uri}`);
+      break;
+    default:
+      throw new Error(`Unsupported method: ${method}`);
   }
 
-  console.log(res);
-  if (res.data.success) {
-    // console.log("ok");
-    if (needData) {
-      return res;
-    }
-    return true;
-  }
-  return false;
+  if (!res.data.success) return false;
+
+  return needData ? res : true;
 };
 
 export const setUserData = async (uri: string, data: any) => {
-  return queryApi(uri, data, true);
+  return queryApi(uri, data, "POST");
 };
 
 export const checkUserAvailability = (uri: string, id: string) => {
-  console.log(id);
-  return queryApi(uri, id, true, true);
+  return queryApi(uri, id, "POST", true);
 };

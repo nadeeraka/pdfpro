@@ -1,6 +1,6 @@
 import { env } from "process";
 
-export const genarateOrginBasedOnEnv = (): string => {
+export const generateOriginBasedOnEnv = (): string => {
   let path: string = "";
   const e = process.env.NODE_ENV;
   if (e === "development") {
