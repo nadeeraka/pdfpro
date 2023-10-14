@@ -5,6 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { getUserHoc } from "../hooks/getUserHoc";
 import { setUserData, checkUserAvailability } from "@/lib/api";
+import DashboardUI from "@/components/dashboardUI";
 
 export default function Page() {
   const { getUser } = getKindeServerSession();
@@ -29,5 +30,5 @@ export default function Page() {
     userCheck();
   }
 
-  return <div>Page</div>;
+  return <DashboardUI />;
 }

@@ -1,7 +1,7 @@
 import { connect } from "@/app/dbConfig/connect";
 import { NextResponse } from "next/server";
 
-export const GET = async () => {
+export const TEST = async () => {
   await connect();
   const response = NextResponse.json(
     {

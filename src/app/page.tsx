@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import Image from "next/image";
 
-export default function Home() {
+export default function Home(): React.ReactNode {
   return (
     <>
       <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">

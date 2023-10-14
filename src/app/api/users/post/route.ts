@@ -1,9 +1,11 @@
 import { connect } from "@/app/dbConfig/connect";
 import { findExistingUser } from "@/lib/api/server";
+import { UserData } from "@/lib/types";
 import User from "@/models/users";
 import { NextRequest, NextResponse } from "next/server";
+import { Interface } from "readline";
 
-const createUser = async ({ id, email, given_name, family_name }: any) => {
+const createUser = async ({ id, email, given_name, family_name }: UserData) => {
   const user = new User({ id, email, given_name, family_name });
   await user.save();
   return user;
