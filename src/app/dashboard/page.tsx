@@ -5,25 +5,23 @@ import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { getUserHoc } from "../hooks/getUserHoc";
 import { genarateOrginBasedOnEnv } from "@/lib/main";
+import { setUserData, checkUserAvailability } from "@/lib/api";
 
 export default function Page() {
   const { getUser } = getKindeServerSession();
-  const user = getUser();
+  const user: any = getUser();
+  const id = user.id;
   // const router = useRouter();
   const path = genarateOrginBasedOnEnv();
-  const sentUserData = (data: any) => {
-    axios
-      .post(`http://localhost:3000/api/users/post`, data)
-      .then((r) => r)
-      .catch((e) => console.log(e));
-  };
 
   console.log(user);
-  if (!user || !user.id) {
+  if (!user || !id) {
     // router.push("/sign-in");
     redirect("auth-callback?origin=dashboard");
   } else {
-    sentUserData(user);
+    // console.log(user);
+    checkUserAvailability("api/users/findOne", user);
+    // setUserData("api/users/post", user);
 
     // getUserHoc();
   }
