@@ -10,6 +10,8 @@ export default function () {
   const router = useRouter();
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin");
+  router.push("/sign-in");
+
   // const { getUser } = getKindeServerSession();
   // const user: any = getUser();
   // console.log(user);
@@ -23,6 +25,10 @@ export default function () {
   //   },
   // });
 
-  console.log(getUserHoc());
-  return <div>page</div>;
+  // console.log(getUserHoc());
+  return (
+    <div>
+      <p>Redirecting ....</p>
+    </div>
+  );
 }
