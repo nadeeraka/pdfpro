@@ -10,7 +10,7 @@ import DashboardUI from "@/components/dashboardUI";
 export default function Page() {
   const { getUser } = getKindeServerSession();
   const user: any = getUser();
-  const id = user.id;
+  // const id = user.id;
 
   const userCheck = async () => {
     const result = await checkUserAvailability("api/users/findOne", user);
@@ -23,7 +23,7 @@ export default function Page() {
     }
   };
   // check user exist
-  if (!user || !id) {
+  if (!user) {
     redirect("auth-callback?origin=dashboard");
   } else {
     // check user already in db or not
