@@ -4,3 +4,12 @@ export interface UserData {
   given_name: string;
   family_name: string;
 }
+
+export interface IUser extends Document {
+  id: string;
+  email: string;
+  //   password: string;
+  //   isVerified: boolean;
+  //   isAdmin: boolean;
+  //   tokenExpire: Date;
+}

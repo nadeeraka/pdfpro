@@ -1,14 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface IUser extends Document {
-  id: string;
-  email: string;
-  //   password: string;
-  //   isVerified: boolean;
-  //   isAdmin: boolean;
-  //   tokenExpire: Date;
-}
-
 const UserSchema: Schema = new mongoose.Schema({
   //   username: {
   //     type: String,
