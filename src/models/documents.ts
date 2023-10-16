@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { v5 } from "uuid";
 import User from "./users";
 
 const DocumentSchema: Schema = new mongoose.Schema({
