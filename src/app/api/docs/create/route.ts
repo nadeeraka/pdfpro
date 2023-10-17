@@ -1,25 +1,60 @@
 import { connect } from "@/app/dbConfig/connect";
-import { findDocsBelongToUser, findExistingUser } from "@/lib/api/server";
-import User from "@/models/users";
+import { findExistingUser } from "@/lib/api/server";
+import Document from "@/models/documents";
 import { NextRequest, NextResponse } from "next/server";
 
+const createDoc = async ({
+  id,
+  name,
+  uploadStatus,
+  url,
+  key,
+  createdAt,
+  updatedAt,
+  user_id,
+}: any) => {
+  const docs = new Document({
+    id,
+    name,
+    uploadStatus,
+    url,
+    key,
+    createdAt,
+    updatedAt,
+    user_id,
+  });
+  await docs.save();
+  return docs;
+};
+
 export const POST = async (request: NextRequest) => {
-  console.log("zod!");
   await connect();
   const reqBody = await request.json();
-  const { id } = reqBody;
+  const { id, name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
+    reqBody;
 
-  // check user exist and find docs
+  // check if user exists
+  findExistingUser(user_id);
 
-  const res = await findDocsBelongToUser(id);
-  if (!res) {
+  // save  data
+  try {
+    const newUser = await createDoc({
+      id,
+      name,
+      uploadStatus,
+      url,
+      key,
+      createdAt,
+      updatedAt,
+      user_id,
+    });
     return NextResponse.json(
-      { error: "all documents", success: true, res },
-      { status: 200 }
+      { message: "New document created successfully!", success: true, newUser },
+      { status: 201 }
     );
-  } else {
+  } catch (error: any) {
     return NextResponse.json(
-      { error: "User created failed!", success: false },
+      { error: error.message, success: false },
       { status: 500 }
     );
   }

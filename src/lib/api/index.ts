@@ -32,10 +32,10 @@ export const setUserData = async (uri: string, data: any) => {
 };
 
 export const checkUserAvailability = (uri: string, id: string) => {
-  console.log(id, "go");
   return queryApi(uri, id, "POST", true);
 };
 
 export const getData = (uri: string, id: string) => {
+  console.log(id, "dftata");
   return queryApi(uri, id, "POST", true);
 };
