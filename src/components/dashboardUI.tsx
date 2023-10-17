@@ -4,8 +4,10 @@ import { UploadButton } from "@/components/ui/uploadButton";
 import Img1 from "../../public/pdf.png";
 import Image from "next/image";
 import Card from "./ui/card";
+import { getUserHoc } from "@/app/hooks/getUserHoc";
 
 const DashboardUi = (): React.ReactNode => {
+  console.log(getUserHoc());
   return (
     <section>
       <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">
@@ -17,8 +19,9 @@ const DashboardUi = (): React.ReactNode => {
           <p className="text-center font-semibold text-lg">
             All documents you have
           </p>
-          <div className="grid grid-cols-4 gap-4 sm:mt-10  mt-2 sm:mx-10  mx-2">
-            <Card />
+
+          <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-4 sm:mt-10  mt-2 sm:mx-10  mx-2">
+            <Card /> <Card /> <Card /> <Card />
           </div>
         </div>
       </div>

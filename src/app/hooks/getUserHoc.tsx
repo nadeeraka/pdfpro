@@ -11,7 +11,7 @@ export const getUserHoc = () => {
   };
 
   useEffect(() => {
-    axios.get("api/users").then((res: any) => {
+    axios.get("api/login").then((res: any) => {
       if (res) {
         setData(res);
       }
