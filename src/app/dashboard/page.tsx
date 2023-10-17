@@ -3,7 +3,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import axios from "axios";
 import { redirect, useRouter } from "next/navigation";
 import React from "react";
-import { getUserHoc } from "../hooks/getUserHoc";
+// import { getUserHoc } from "../hooks/getTestApi";
 import { setUserData, checkUserAvailability } from "@/lib/api";
 import DashboardUI from "@/components/dashboardUI";
 
@@ -30,5 +30,5 @@ export default function Page() {
     userCheck();
   }
 
-  return <DashboardUI />;
+  return <DashboardUI userData={user} />;
 }

@@ -4,6 +4,7 @@ import User from "@/models/users";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
+  console.log("zod!");
   await connect();
   const reqBody = await request.json();
   const { id } = reqBody;

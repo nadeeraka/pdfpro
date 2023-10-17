@@ -4,10 +4,13 @@ import { UploadButton } from "@/components/ui/uploadButton";
 import Img1 from "../../public/pdf.png";
 import Image from "next/image";
 import Card from "./ui/card";
-import { getUserHoc } from "@/app/hooks/getUserHoc";
+import { getTestApi } from "@/app/hooks/getTestApi";
+import { getUserHoc } from "@/app/hooks/getKindUser";
+import { getDocsHoc } from "@/app/hooks/getDocsHoc";
 
-const DashboardUi = (): React.ReactNode => {
-  console.log(getUserHoc());
+const DashboardUi = ({ userData }: any): React.ReactNode => {
+  console.log(userData.id);
+  console.log(getDocsHoc(userData.id));
   return (
     <section>
       <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">

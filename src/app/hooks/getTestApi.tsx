@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-export const getUserHoc = () => {
+export const getTestApi = () => {
   const [Data, setData] = useState("");
 
   const getUser = async () => {

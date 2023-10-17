@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { trpc } from "../_trpc/client";
 import axios from "axios";
-import { getUserHoc } from "../hooks/getUserHoc";
+import { getUserHoc } from "../hooks/getTestApi";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function () {
