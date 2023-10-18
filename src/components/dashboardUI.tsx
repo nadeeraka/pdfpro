@@ -15,7 +15,8 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
     error: boolean;
   }
   const [Data, setData] = useState<DataState | null>(null);
-  const { data, loading, error } = useDocsHoc(userData.id);
+  const id = userData.id;
+  const { data, loading, error } = useDocsHoc(id);
 
   useEffect(() => {
     const init: DataState = {
@@ -25,7 +26,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
     };
     setData(init);
   }, [loading, data, error]);
-  console.log(Data);
+  // console.log(Data);
   // console.log(data, loading, error);
 
   return (
@@ -33,7 +34,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
       <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">
         <div className=" w-full sm:h-24 h-14 flex justify-between sm:px-20 px-10 items-center border-b rounded sm:mb-10 mb-6">
           <p className="text-2xl sm:text-4xl font-bold  ">My Documents </p>
-          <UploadButton />
+          <UploadButton id={id} />
         </div>
         <div className="sm:mt-10 mt-6 ">
           {/* <p className="text-center font-semibold text-lg">

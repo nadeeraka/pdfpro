@@ -1,8 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import User from "./users";
 
 const DocumentSchema: Schema = new mongoose.Schema({
-  id: Schema.Types.UUID,
+  // id: Schema.Types.UUID,
   name: String,
   uploadStatus: {
     type: String,
@@ -33,6 +32,6 @@ const DocumentSchema: Schema = new mongoose.Schema({
 // });
 
 const Document =
-  mongoose.models.user || mongoose.model("document", DocumentSchema);
+  mongoose.models.document || mongoose.model("document", DocumentSchema);
 
 export default Document;

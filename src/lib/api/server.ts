@@ -18,3 +18,11 @@ export const findDocsBelongToUser = async (id: string) => {
   }
   return false;
 };
+
+export const findUserIsExists = async (id: string) => {
+  const existingUser = await User.findOne({ id });
+  if (existingUser) {
+    return true;
+  }
+  return false;
+};

@@ -1,10 +1,10 @@
 import { connect } from "@/app/dbConfig/connect";
-import { findExistingUser } from "@/lib/api/server";
+import { findExistingUser, findUserIsExists } from "@/lib/api/server";
 import Document from "@/models/documents";
 import { NextRequest, NextResponse } from "next/server";
 
 const createDoc = async ({
-  id,
+  // id,
   name,
   uploadStatus,
   url,
@@ -14,7 +14,7 @@ const createDoc = async ({
   user_id,
 }: any) => {
   const docs = new Document({
-    id,
+    // id,
     name,
     uploadStatus,
     url,
@@ -28,17 +28,18 @@ const createDoc = async ({
 };
 
 export const POST = async (request: NextRequest) => {
+  console.log("zod");
   await connect();
   const reqBody = await request.json();
   const { id, name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
     reqBody;
 
   // check if user exists
-  findExistingUser(user_id);
+  // findUserIsExists(user_id);
 
   // save  data
   try {
-    const newUser = await createDoc({
+    const newDoc = await createDoc({
       id,
       name,
       uploadStatus,
@@ -48,8 +49,9 @@ export const POST = async (request: NextRequest) => {
       updatedAt,
       user_id,
     });
+
     return NextResponse.json(
-      { message: "New document created successfully!", success: true, newUser },
+      { message: "New document created successfully!", success: true, newDoc },
       { status: 201 }
     );
   } catch (error: any) {

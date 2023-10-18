@@ -13,8 +13,9 @@ const queryApi = async (
 
   switch (method) {
     case "POST":
-      // console.log(data);
+      console.log(data);
       res = await axios.post(`${path}/${uri}`, data);
+      console.log(res);
       break;
     case "GET":
       res = await axios.get(`${path}/${uri}`);
@@ -39,4 +40,8 @@ export const checkUserAvailability = (uri: string, id: string) => {
 export const getDocData = (uri: string, id: string) => {
   const data = { id: id };
   return queryApi(uri, data, "POST", true);
+};
+
+export const createDoc = async (uri: string, data: any) => {
+  return queryApi(uri, data, "POST");
 };
