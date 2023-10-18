@@ -23,14 +23,14 @@ export const useDocsHoc = (id: any) => {
     }
 
     const res = await getDocData("api/docs/get", id);
-    if (res) {
-      setData(res);
+    if (!res || !res.data) {
       setLoading(false);
       setError(true);
       return true;
     }
+    setData(res.data.res);
     setLoading(false);
-    setError(true);
+    setError(false);
 
     // axios.get("api/login");
   };

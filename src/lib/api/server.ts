@@ -11,10 +11,9 @@ export const findExistingUser = async (id: string) => {
 };
 
 export const findDocsBelongToUser = async (id: string) => {
-  const query = Document.where({ user_id: id });
-  const documents = await query.find().count();
-  if (documents) {
-    return await query.find();
+  const query = Document.find({ user_id: id });
+  if (query) {
+    return query;
   }
   return false;
 };
@@ -23,6 +22,16 @@ export const findUserIsExists = async (id: string) => {
   const existingUser = await User.findOne({ id });
   if (existingUser) {
     return true;
+  }
+  return false;
+};
+
+export const findDocsById = async (uid: string, docId: string) => {
+  const query = await Document.find({ user_id: uid }).find({ _id: docId });
+  // const documents = await query.where({ _id: docId });
+  if (query) {
+    console.log(query);
+    return query;
   }
   return false;
 };

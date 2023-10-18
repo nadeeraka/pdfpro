@@ -28,7 +28,6 @@ const createDoc = async ({
 };
 
 export const POST = async (request: NextRequest) => {
-  console.log("zod");
   await connect();
   const reqBody = await request.json();
   const { id, name, uploadStatus, url, key, createdAt, updatedAt, user_id } =

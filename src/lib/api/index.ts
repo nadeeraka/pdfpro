@@ -29,10 +29,6 @@ const queryApi = async (
   return needData ? res : true;
 };
 
-export const setUserData = async (uri: string, data: any) => {
-  return queryApi(uri, data, "POST");
-};
-
 export const checkUserAvailability = (uri: string, id: string) => {
   return queryApi(uri, id, "POST", true);
 };
@@ -42,6 +38,11 @@ export const getDocData = (uri: string, id: string) => {
   return queryApi(uri, data, "POST", true);
 };
 
-export const createDoc = async (uri: string, data: any) => {
+export const createData = async (uri: string, data: any) => {
   return queryApi(uri, data, "POST");
+};
+
+export const findDocById = (uri: string, uid: string, docId: string) => {
+  const data = { uid, docId };
+  return queryApi(uri, data, "POST", true);
 };

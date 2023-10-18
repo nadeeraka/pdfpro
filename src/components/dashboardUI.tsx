@@ -26,7 +26,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
     };
     setData(init);
   }, [loading, data, error]);
-  // console.log(Data);
+  console.log(Data);
   // console.log(data, loading, error);
 
   return (
@@ -41,19 +41,22 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
             All documents you have
           </p> */}
 
-          <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1   mt-2 sm:mx-10 ">
-            <Card data={[]} />
-            <Card data={[]} />
-            <Card data={[]} />
-            <Card data={[]} />
-          </div>
-          {/* {data.length > 0 && !loading ? (
-            <Card data={[]} />
+          {Data?.data?.length > 0 && !loading ? (
+            <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1   mt-2 sm:mx-10 ">
+              {Data?.data.map((res: any) => (
+                <Card
+                  title={res.name}
+                  url={res.url}
+                  createdAt={res.createdAt}
+                  docId={res._id}
+                />
+              ))}
+            </div>
           ) : !error && loading ? (
             <Skeleton height={100} className="my-2 sm:my-5" count={3} />
           ) : (
             <EmptyPage text=" Lets upload a document." />
-          )} */}
+          )}
         </div>
       </div>
     </section>

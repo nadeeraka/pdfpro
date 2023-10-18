@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 import { Button } from "./button";
-import { createDoc } from "@/lib/api";
+import { createData } from "@/lib/api";
 
 export const UploadButton = ({ id }: { id: string }): React.ReactNode => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -30,12 +30,12 @@ export const UploadButton = ({ id }: { id: string }): React.ReactNode => {
       url: "not set",
       user_id: id,
     };
-    const res = await createDoc("api/docs/create", data);
+    const res = await createData("api/docs/create", data);
     console.log(res);
   };
 
   useEffect(() => {
-    createDocument();
+    // createDocument();
   }, []);
 
   return (
