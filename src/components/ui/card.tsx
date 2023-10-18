@@ -4,6 +4,7 @@ import Img1 from "../../../public/pdf.png";
 import Image from "next/image";
 import { MessageSquare, Plus, Trash } from "lucide-react";
 import { Button } from "./button";
+import { dateFormat } from "@/lib/dateTime";
 
 type obj = [{ res: string }] | [];
 const Card = ({
@@ -40,7 +41,7 @@ const Card = ({
         <div className="flex justify-between sm:justify-center">
           <div className="flex items-center mr-4 sm:mr-4">
             <Plus />
-            <p className="sm:ml-2 ml-1 text-lg">{createdAt}</p>
+            <p className="sm:ml-2 ml-1 text-lg">{dateFormat(createdAt)}</p>
           </div>
 
           <div className="flex items-center mr-4 sm:mr-4">
