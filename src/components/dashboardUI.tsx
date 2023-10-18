@@ -1,18 +1,17 @@
 "use client";
-import React, { FC, PropsWithChildren, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UploadButton } from "@/components/ui/uploadButton";
-import Img1 from "../../public/pdf.png";
-import Image from "next/image";
 import Card from "./ui/card";
-import { getTestApi } from "@/app/hooks/getTestApi";
-import { getUserHoc } from "@/app/hooks/getKindUser";
 import { useDocsHoc } from "@/app/hooks/getDocsHoc";
-import { InitType } from "@/lib/types";
+import { Ghost } from "lucide-react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
+import EmptyPage from "./ui/emptyPage";
 
 const DashboardUi = ({ userData }: any): React.ReactNode => {
   interface DataState {
     loading: boolean;
-    data: any;
+    data: any | [];
     error: boolean;
   }
   const [Data, setData] = useState<DataState | null>(null);
@@ -26,7 +25,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
     };
     setData(init);
   }, [loading, data, error]);
-  // console.log(Data);
+  console.log(Data);
   // console.log(data, loading, error);
 
   return (
@@ -41,9 +40,13 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
             All documents you have
           </p>
 
-          <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-4 sm:mt-10  mt-2 sm:mx-10  mx-2">
-            <Card /> <Card /> <Card /> <Card />
-          </div>
+          {data.length > 0 && !loading ? (
+            <Card data={[]} />
+          ) : !error && loading ? (
+            <Skeleton height={100} className="my-2 sm:my-5" count={3} />
+          ) : (
+            <EmptyPage text=" Lets upload a document." />
+          )}
         </div>
       </div>
     </section>

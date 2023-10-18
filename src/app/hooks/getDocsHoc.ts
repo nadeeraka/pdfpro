@@ -38,6 +38,5 @@ export const useDocsHoc = (id: any) => {
   useEffect(() => {
     getUserData();
   }, []);
-  console.log(data, loading, error);
   return { data, loading, error };
 };
