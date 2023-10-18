@@ -31,7 +31,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
   return (
     <section>
       <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">
-        <div className=" w-full sm:h-24 h-14 flex justify-between sm:px-20 px-10 items-center border-b rounded ring-offset-purple-400 sm:ring-2 ring-1 sm:mb-10 mb-6">
+        <div className=" w-full sm:h-24 h-14 flex justify-between sm:px-20 px-10 items-center border-b rounded sm:mb-10 mb-6">
           <p className="text-2xl sm:text-4xl font-bold  ">My Documents </p>
           <UploadButton />
         </div>
@@ -40,13 +40,19 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
             All documents you have
           </p>
 
-          {data.length > 0 && !loading ? (
+          <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1   mt-2 sm:mx-10 ">
+            <Card data={[]} />
+            <Card data={[]} />
+            <Card data={[]} />
+            <Card data={[]} />
+          </div>
+          {/* {data.length > 0 && !loading ? (
             <Card data={[]} />
           ) : !error && loading ? (
             <Skeleton height={100} className="my-2 sm:my-5" count={3} />
           ) : (
             <EmptyPage text=" Lets upload a document." />
-          )}
+          )} */}
         </div>
       </div>
     </section>

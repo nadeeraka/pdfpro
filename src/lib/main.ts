@@ -10,3 +10,7 @@ export const generateOriginBasedOnEnv = (): string => {
   }
   return path;
 };
+
+export const getEnv = (): string => {
+  return process.env.NODE_ENV;
+};

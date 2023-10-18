@@ -1,3 +1,4 @@
+import { getEnv } from "@/lib/main";
 import mongoose from "mongoose";
 
 export const connect = (): void => {
@@ -9,7 +10,7 @@ export const connect = (): void => {
     });
     connection.on("error", () => {
       console.log("DB not connected! ");
-      process.exit();
+      getEnv() == "development" ? "DB not connected!" : process.exit();
     });
   } catch (error) {
     console.error(
