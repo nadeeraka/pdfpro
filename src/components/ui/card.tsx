@@ -17,9 +17,9 @@ const Card = ({ data }: { data: obj }) => {
     //   </div>
     // </div>
     <div className=" ">
-      <div className="sm:mx-10 mx-2 sm:mt-4 mt-2  bg-white/90  border-slate-50 border-4 sm:py-10 sm:px-10 py-4 px-4">
+      <div className="sm:mx-10 mx-2 sm:mt-4 mt-2  bg-white/90  border-slate-50 border-4 sm:py-10 sm:px-10 py-4 px-4 shadow-lg ring-1 ring-zinc-400">
         <div className="flex ">
-          <div className="sm:w-16 sm:h-16 w-8 h-8 rounded-full bg-blue-500"></div>
+          <div className="sm:w-12 sm:h-12 w-8 h-8 rounded-full bg-blue-500"></div>
           <div className="sm:ml-16 ml-10 flex  items-center">
             <p className="sm:text-4xl text-2xl  text-zinc-600 font-bold ">
               title

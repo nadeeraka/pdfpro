@@ -36,7 +36,7 @@ export const checkUserAvailability = (uri: string, id: string) => {
   return queryApi(uri, id, "POST", true);
 };
 
-export const getData = (uri: string, id: string) => {
+export const getDocData = (uri: string, id: string) => {
   const data = { id: id };
   return queryApi(uri, data, "POST", true);
 };

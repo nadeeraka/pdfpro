@@ -36,9 +36,9 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
           <UploadButton />
         </div>
         <div className="sm:mt-10 mt-6 ">
-          <p className="text-center font-semibold text-lg">
+          {/* <p className="text-center font-semibold text-lg">
             All documents you have
-          </p>
+          </p> */}
 
           <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1   mt-2 sm:mx-10 ">
             <Card data={[]} />

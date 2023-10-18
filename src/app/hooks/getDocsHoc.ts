@@ -1,5 +1,5 @@
 "use client";
-import { getData } from "@/lib/api";
+import { getDocData } from "@/lib/api";
 import { InitType } from "@/lib/types";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import axios from "axios";
@@ -22,7 +22,7 @@ export const useDocsHoc = (id: any) => {
       return false;
     }
 
-    const res = await getData("api/docs/get", id);
+    const res = await getDocData("api/docs/get", id);
     if (res) {
       setData(res);
       setLoading(false);
