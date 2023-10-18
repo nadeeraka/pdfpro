@@ -1,16 +1,34 @@
 "use client";
-import React, { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, useEffect, useState } from "react";
 import { UploadButton } from "@/components/ui/uploadButton";
 import Img1 from "../../public/pdf.png";
 import Image from "next/image";
 import Card from "./ui/card";
 import { getTestApi } from "@/app/hooks/getTestApi";
 import { getUserHoc } from "@/app/hooks/getKindUser";
-import { getDocsHoc } from "@/app/hooks/getDocsHoc";
+import { useDocsHoc } from "@/app/hooks/getDocsHoc";
+import { InitType } from "@/lib/types";
 
 const DashboardUi = ({ userData }: any): React.ReactNode => {
-  console.log(userData.id);
-  console.log(getDocsHoc(userData.id));
+  interface DataState {
+    loading: boolean;
+    data: any;
+    error: boolean;
+  }
+  const [Data, setData] = useState<DataState | null>(null);
+  const { data, loading, error } = useDocsHoc(userData.id);
+
+  useEffect(() => {
+    const init: DataState = {
+      loading: loading,
+      data: data,
+      error: error,
+    };
+    setData(init);
+  }, [loading, data, error]);
+  // console.log(Data);
+  // console.log(data, loading, error);
+
   return (
     <section>
       <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">

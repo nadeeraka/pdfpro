@@ -4,6 +4,11 @@ export interface UserData {
   given_name: string;
   family_name: string;
 }
+export interface InitType {
+  loading: boolean;
+  data: [];
+  error: boolean;
+}
 
 export interface IUser extends Document {
   id: string;

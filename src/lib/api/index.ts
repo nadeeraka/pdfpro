@@ -13,6 +13,7 @@ const queryApi = async (
 
   switch (method) {
     case "POST":
+      // console.log(data);
       res = await axios.post(`${path}/${uri}`, data);
       break;
     case "GET":
@@ -36,6 +37,6 @@ export const checkUserAvailability = (uri: string, id: string) => {
 };
 
 export const getData = (uri: string, id: string) => {
-  console.log(id, "dftata");
-  return queryApi(uri, id, "POST", true);
+  const data = { id: id };
+  return queryApi(uri, data, "POST", true);
 };
