@@ -9,11 +9,6 @@ import EmptyPage from "./ui/emptyPage";
 const DashboardUi = ({ userData }: any): React.ReactNode => {
   const [reload, setReaload] = useState(true);
   const { data, loading, error } = useDocsHoc(userData.id, reload);
-  const init = {
-    data: [],
-    loading: false,
-    error: false,
-  };
 
   const handleState = () => {
     setReaload((reload) => !reload);

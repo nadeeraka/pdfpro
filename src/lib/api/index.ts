@@ -26,7 +26,7 @@ const queryApi = async (
 
   if (!res.data.success) return false;
 
-  return needData ? res : true;
+  return needData ? res : "";
 };
 
 export const checkUserAvailability = (uri: string, id: string) => {
@@ -45,4 +45,9 @@ export const createData = async (uri: string, data: any) => {
 export const findDocById = (uri: string, uid: string, docId: string) => {
   const data = { uid, docId };
   return queryApi(uri, data, "POST", true);
+};
+
+export const getDocById = (uri: string, docId: string) => {
+  console.log(`${uri}/${docId}`);
+  return queryApi(`${uri}/${docId}`, "", "GET");
 };
