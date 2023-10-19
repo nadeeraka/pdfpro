@@ -1,16 +1,16 @@
-import { connect } from "@/app/dbConfig/connect";
-import { NextResponse } from "next/server";
+// import { connect } from "@/app/dbConfig/connect";
+// import { NextResponse } from "next/server";
 
-export const TESTRoute = async () => {
-  await connect();
-  const response = NextResponse.json(
-    {
-      message: "Logout success!",
-      success: true,
-    },
-    { status: 200 }
-  );
-  console.log("ok");
+// export const TESTRoute = async () => {
+//   await connect();
+//   const response = NextResponse.json(
+//     {
+//       message: "Logout success!",
+//       success: true,
+//     },
+//     { status: 200 }
+//   );
+//   console.log("ok");
 
-  return response;
-};
+//   return response;
+// };
