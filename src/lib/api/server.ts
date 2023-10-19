@@ -20,7 +20,6 @@ export const findUserIsExists = async (id: string) => {
 
 export const findDocsById = async (uid: string, docId: string) => {
   const query = await Document.find({ user_id: uid }).find({ _id: docId });
-  // const documents = await query.where({ _id: docId });
   return query || false;
 };
 
@@ -28,6 +27,5 @@ export const deleteOne = async (uid: string, docId: string) => {
   const query = await Document.find({ user_id: uid })
     .find({ _id: docId })
     .deleteOne();
-  // const documents = await query.where({ _id: docId });
   return query || false;
 };

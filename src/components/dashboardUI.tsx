@@ -7,7 +7,17 @@ import Skeleton from "react-loading-skeleton";
 import EmptyPage from "./ui/emptyPage";
 
 const DashboardUi = ({ userData }: any): React.ReactNode => {
-  const { data, loading, error } = useDocsHoc(userData.id);
+  const [reload, setReaload] = useState(true);
+  const { data, loading, error } = useDocsHoc(userData.id, reload);
+  const init = {
+    data: [],
+    loading: false,
+    error: false,
+  };
+
+  const handleState = () => {
+    setReaload((reload) => !reload);
+  };
 
   return (
     <section>
@@ -21,6 +31,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
             <div className="grid grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1 mt-2 sm:mx-10">
               {data.map((res: any, id: number) => (
                 <Card
+                  handleState={handleState}
                   title={res.name}
                   url={res.url}
                   createdAt={res.createdAt}

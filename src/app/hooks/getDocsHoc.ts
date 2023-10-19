@@ -1,7 +1,7 @@
 import { getDocData } from "@/lib/api";
 import { useEffect, useState } from "react";
 
-export const useDocsHoc = (id: any) => {
+export const useDocsHoc = (id: any, reload: boolean) => {
   const [state, setState] = useState({
     data: [],
     loading: true,
@@ -25,6 +25,6 @@ export const useDocsHoc = (id: any) => {
     };
 
     getUserData();
-  }, [id]);
+  }, [id, reload]);
   return state;
 };

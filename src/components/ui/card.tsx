@@ -15,18 +15,21 @@ const Card = ({
   createdAt,
   docId,
   userId,
+  handleState,
 }: {
   title: string;
   url: string;
   createdAt: string;
   docId: string;
   userId: string;
+  handleState: any;
 }) => {
   const handelDelete = async (uId: string, dId: string) => {
     const res = await findDocById("api/docs/delete", dId, uId);
     if (res?.data?.success) {
       console.log("lick");
-      window.location.reload(false);
+      // window.location.reload(false);
+      handleState();
     }
   };
 
