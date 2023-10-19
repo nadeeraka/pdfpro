@@ -3,59 +3,48 @@ import React, { useEffect, useState } from "react";
 import { UploadButton } from "@/components/ui/uploadButton";
 import Card from "./ui/card";
 import { useDocsHoc } from "@/app/hooks/getDocsHoc";
-import { Ghost } from "lucide-react";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
+import Skeleton from "react-loading-skeleton";
 import EmptyPage from "./ui/emptyPage";
 
 const DashboardUi = ({ userData }: any): React.ReactNode => {
-  interface DataState {
-    loading: boolean;
-    data: any | [];
-    error: boolean;
-  }
-  const [Data, setData] = useState<DataState | null>(null);
-  const id = userData.id;
-  const { data, loading, error } = useDocsHoc(id);
+  const [reload, setReaload] = useState(true);
+  const { data, loading, error } = useDocsHoc(userData.id, reload);
+  const init = {
+    data: [],
+    loading: false,
+    error: false,
+  };
 
-  useEffect(() => {
-    const init: DataState = {
-      loading: loading,
-      data: data,
-      error: error,
-    };
-    setData(init);
-  }, [loading, data, error]);
-  console.log(Data);
-  // console.log(data, loading, error);
+  const handleState = () => {
+    setReaload((reload) => !reload);
+  };
 
   return (
     <section>
-      <div className="sm:mx-10  mx-2 sm:mt-10 mt-6 h-screen">
-        <div className=" w-full sm:h-24 h-14 flex justify-between sm:px-20 px-10 items-center border-b rounded sm:mb-10 mb-6">
-          <p className="text-2xl sm:text-4xl font-bold  ">My Documents </p>
-          <UploadButton id={id} />
+      <div className="sm:mx-10 mx-2 sm:mt-10 mt-6 h-screen">
+        <div className="w-full sm:h-24 h-14 flex justify-between sm:px-20 px-10 items-center border-b rounded sm:mb-10 mb-6">
+          <p className="text-2xl sm:text-4xl font-bold">My Documents</p>
+          <UploadButton id={userData.id} />
         </div>
-        <div className="sm:mt-10 mt-6 ">
-          {/* <p className="text-center font-semibold text-lg">
-            All documents you have
-          </p> */}
-
-          {Data?.data?.length > 0 && !loading ? (
-            <div className="grid  grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1   mt-2 sm:mx-10 ">
-              {Data?.data.map((res: any) => (
+        <div className="sm:mt-10 mt-6">
+          {data?.length > 0 && !loading ? (
+            <div className="grid grid-rows-4 gap-2 sm:grid-cols-4 sm:gap-1 mt-2 sm:mx-10">
+              {data.map((res: any, id: number) => (
                 <Card
+                  handleState={handleState}
                   title={res.name}
                   url={res.url}
                   createdAt={res.createdAt}
                   docId={res._id}
+                  userId={res.user_id}
+                  key={id}
                 />
               ))}
             </div>
           ) : !error && loading ? (
             <Skeleton height={100} className="my-2 sm:my-5" count={3} />
           ) : (
-            <EmptyPage text=" Lets upload a document." />
+            <EmptyPage text="Let's upload a document." />
           )}
         </div>
       </div>

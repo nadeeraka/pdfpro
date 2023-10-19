@@ -4,34 +4,28 @@ import { NextResponse } from "next/server";
 
 export const findExistingUser = async (id: string) => {
   const existingUser = await User.findOne({ id });
-  if (existingUser) {
-    return false;
-  }
-  return true;
+  return existingUser || false;
 };
 
 export const findDocsBelongToUser = async (id: string) => {
-  const query = Document.find({ user_id: id });
-  if (query) {
-    return query;
-  }
-  return false;
+  const query = await Document.find({ user_id: id });
+  return query || false;
 };
 
 export const findUserIsExists = async (id: string) => {
   const existingUser = await User.findOne({ id });
-  if (existingUser) {
-    return true;
-  }
-  return false;
+
+  return existingUser || false;
 };
 
 export const findDocsById = async (uid: string, docId: string) => {
   const query = await Document.find({ user_id: uid }).find({ _id: docId });
-  // const documents = await query.where({ _id: docId });
-  if (query) {
-    console.log(query);
-    return query;
-  }
-  return false;
+  return query || false;
+};
+
+export const deleteOne = async (uid: string, docId: string) => {
+  const query = await Document.find({ user_id: uid })
+    .find({ _id: docId })
+    .deleteOne();
+  return query || false;
 };

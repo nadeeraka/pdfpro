@@ -20,17 +20,15 @@ export default function RootLayout({
 }): React.ReactNode {
   return (
     <html lang="en">
-      <Providers>
-        <body
-          className={cn(
-            "min-h-screen font-sans antialiased grainy ",
-            inter.className
-          )}
-        >
-          <Nav />
-          {children}
-        </body>
-      </Providers>
+      <body
+        className={cn(
+          "min-h-screen font-sans antialiased grainy ",
+          inter.className
+        )}
+      >
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }

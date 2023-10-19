@@ -1,16 +1,16 @@
-import { findDocsById } from "@/lib/api/server";
+import { deleteOne, findDocsById } from "@/lib/api/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   const reqBody = await request.json();
 
   const { uid, docId } = reqBody;
-  // check user exist and find docs
+  // find the doc belong to user and then delete
 
-  const res = await findDocsById(uid, docId);
+  const res = await deleteOne(uid, docId);
   if (res) {
     return NextResponse.json(
-      { error: "all documents", success: true, res },
+      { error: "delete  document success! ", success: true, res },
       { status: 200 }
     );
   } else {
