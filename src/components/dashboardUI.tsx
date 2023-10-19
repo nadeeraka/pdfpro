@@ -25,6 +25,7 @@ const DashboardUi = ({ userData }: any): React.ReactNode => {
                   url={res.url}
                   createdAt={res.createdAt}
                   docId={res._id}
+                  userId={res.user_id}
                   key={id}
                 />
               ))}

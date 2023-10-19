@@ -1,23 +1,35 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { UploadButton } from "@/components/ui/uploadButton";
 import Img1 from "../../../public/pdf.png";
 import Image from "next/image";
 import { MessageSquare, Plus, Trash } from "lucide-react";
 import { Button } from "./button";
 import { dateFormat } from "@/lib/dateTime";
+import { findDocById } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
-type obj = [{ res: string }] | [];
 const Card = ({
   title,
   url,
   createdAt,
   docId,
+  userId,
 }: {
   title: string;
   url: string;
   createdAt: string;
   docId: string;
+  userId: string;
 }) => {
+  const handelDelete = async (uId: string, dId: string) => {
+    const res = await findDocById("api/docs/delete", dId, uId);
+    if (res?.data?.success) {
+      console.log("lick");
+      window.location.reload(false);
+    }
+  };
+
   return (
     <div className=" ">
       <div className="sm:mx-10 mx-2 sm:mt-4 mt-2  bg-white/90  border-slate-50 border-4 sm:py-10 sm:px-10 py-4 px-4 shadow-lg ring-1 ring-zinc-400 rounded">
@@ -40,7 +52,12 @@ const Card = ({
             <MessageSquare />
           </div>
           <div className="flex items-center ">
-            <Button variant={"destructive"} size="sm" className="w-full">
+            <Button
+              variant={"destructive"}
+              size="sm"
+              className="w-full"
+              onClick={() => handelDelete(docId, userId)}
+            >
               <Trash />
             </Button>
           </div>
