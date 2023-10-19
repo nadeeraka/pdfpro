@@ -6,7 +6,7 @@ import axios from "axios";
 // import { getUserHoc } from "../hooks/getTestApi";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-export default function () {
+export default function Callback() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin");
