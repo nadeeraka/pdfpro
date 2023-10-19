@@ -21,7 +21,7 @@ export const useFindDoc = (id: string) => {
 
   useEffect(() => {
     apiCall(id);
-  }, [state]);
+  }, [id]);
 
   return state;
 };
