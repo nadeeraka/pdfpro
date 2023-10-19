@@ -1,5 +1,5 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 
-export const deleteDoc = () => {
-  const [state, setState] = useState();
-};
+// export const deleteDoc = () => {
+//   const [state, setState] = useState();
+// };
