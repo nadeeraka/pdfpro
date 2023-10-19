@@ -1,24 +1,26 @@
 import { connect } from "@/app/dbConfig/connect";
-import { findDocsBelongToUser, findExistingUser } from "@/lib/api/server";
+import {
+  findDocsBelongToUser as findDocs,
+  findDocsBelongToUser,
+  findExistingUser,
+} from "@/lib/api/server";
 import { NextRequest, NextResponse } from "next/server";
+import Document from "@/models/documents";
 
 export const POST = async (request: NextRequest) => {
-  console.log("tesy");
-  const reqBody = await request.json();
+  const { id } = await request.json();
 
-  const { id } = reqBody;
-  // check user exist and find docs
+  const documents = await findDocsBelongToUser(id);
 
-  const res = await findDocsBelongToUser(id);
-  if (res) {
-    console.log(res, "res");
+  if (documents) {
+    console.log(documents, "documents");
     return NextResponse.json(
-      { error: "all documents", success: true, res },
+      { message: "All documents", success: true, documents },
       { status: 200 }
     );
   } else {
     return NextResponse.json(
-      { error: "No documents found!", success: false },
+      { message: "No documents found!", success: false },
       { status: 200 }
     );
   }

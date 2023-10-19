@@ -1,10 +1,8 @@
 import { connect } from "@/app/dbConfig/connect";
-import { findExistingUser, findUserIsExists } from "@/lib/api/server";
 import Document from "@/models/documents";
 import { NextRequest, NextResponse } from "next/server";
 
 const createDoc = async ({
-  // id,
   name,
   uploadStatus,
   url,
@@ -14,7 +12,6 @@ const createDoc = async ({
   user_id,
 }: any) => {
   const docs = new Document({
-    // id,
     name,
     uploadStatus,
     url,
@@ -30,16 +27,12 @@ const createDoc = async ({
 export const POST = async (request: NextRequest) => {
   await connect();
   const reqBody = await request.json();
-  const { id, name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
+  const { name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
     reqBody;
-
-  // check if user exists
-  // findUserIsExists(user_id);
 
   // save  data
   try {
     const newDoc = await createDoc({
-      id,
       name,
       uploadStatus,
       url,
