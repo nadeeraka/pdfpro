@@ -2,7 +2,12 @@ import Document from "@/models/documents";
 import User from "@/models/users";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import {
+  checkUserExists,
+  getUserId,
+  redirectToPageIfUserNotFound,
+} from "../main";
 
 export const findExistingUser = async (id: string) => {
   const existingUser = await User.findOne({ id });
@@ -32,32 +37,14 @@ export const deleteOne = async (uid: string, docId: string) => {
   return query || false;
 };
 
-export const redirectToPageIfUserNotFound = (
-  origin: string,
-  fid: string,
-  user: any
-): boolean => {
-  // const { fid } = params;
+export const getDocData = async (origin: string, fid: string): Promise<any> => {
+  const id = getUserId();
 
-  // const { getUser } = getKindeServerSession();
-  // const user = getUser();
-
-  // if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${fid}`);
-
-  const genUrl: string = `/auth-callback?origin=${origin}/${fid}`;
-
-  if (!user || !user.id) {
-    redirect(genUrl);
+  if (redirectToPageIfUserNotFound(fid, origin)) {
+    try {
+      return await findDocsById(id, fid);
+    } catch (error) {
+      console.error(`Error fetching documents: ${error}`);
+    }
   }
-  return true;
-};
-
-export const getDocData = async (origin: string, fid: string) => {
-  const { getUser } = getKindeServerSession();
-  const user = getUser();
-  const id = user.id ? user.id : "";
-  console.log(id);
-  return (
-    redirectToPageIfUserNotFound(origin, fid, user) && findDocsById(id, fid)
-  );
 };
