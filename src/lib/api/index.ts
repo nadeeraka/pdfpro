@@ -2,7 +2,7 @@ import axios from "axios";
 import { generateOriginBasedOnEnv } from "../main";
 
 const path = generateOriginBasedOnEnv();
-
+const abortController = new AbortController();
 const queryApi = async (
   uri: string,
   data: any,
@@ -18,7 +18,9 @@ const queryApi = async (
       console.log(res);
       break;
     case "GET":
-      res = await axios.get(`${path}/${uri}`);
+      res = await axios.get(`${path}/${uri}`, {
+        signal: abortController.signal,
+      });
       break;
     default:
       throw new Error(`Unsupported method: ${method}`);

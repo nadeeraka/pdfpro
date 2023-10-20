@@ -1,4 +1,4 @@
-import { deleteOne, findDocsById } from "@/lib/api/server";
+import { deleteOne } from "@/lib/api/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {

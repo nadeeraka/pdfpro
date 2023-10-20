@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import React from "react";
 
 export const useFindDoc = (id: string) => {
+  const abortController = new AbortController();
+  let isMounted: boolean = true;
   const [state, setState] = useState(
     useState({
       data: [],
@@ -10,7 +12,7 @@ export const useFindDoc = (id: string) => {
       error: false,
     })
   );
-
+  const signal = abortController.signal;
   const apiCall = async (id: string) => {
     // console.log(id);
     const result = await getDocById("api/document", id);
@@ -21,6 +23,9 @@ export const useFindDoc = (id: string) => {
 
   useEffect(() => {
     apiCall(id);
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   return state;
