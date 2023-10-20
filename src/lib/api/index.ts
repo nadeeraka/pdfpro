@@ -49,7 +49,8 @@ export const findDocById = (uri: string, uid: string, docId: string) => {
   return queryApi(uri, data, "POST", true);
 };
 
-export const getDocById = (uri: string, docId: string) => {
+export const getDocById = (uri: string, docId?: string) => {
   console.log(`${uri}/${docId}`);
-  return queryApi(`${uri}/${docId}`, "", "GET");
+  const url: string = docId ? `${uri}/${docId}` : `${uri}`;
+  return queryApi(url, "", "GET");
 };

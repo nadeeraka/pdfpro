@@ -1,6 +1,5 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-import { env } from "process";
 const { getUser } = getKindeServerSession();
 
 export const generateOriginBasedOnEnv = (): string => {
@@ -41,4 +40,10 @@ export const redirectToPageIfUserNotFound = (fid: string, origin?: string) => {
     redirect(genUrl);
   }
   return false;
+};
+
+export const redirectToLogin = () => {
+  if (!checkUserExists()) {
+    redirect("/login");
+  }
 };

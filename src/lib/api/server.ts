@@ -48,3 +48,8 @@ export const getDocData = async (origin: string, fid: string): Promise<any> => {
     }
   }
 };
+
+export const getDocInfo = async (did: string) => {
+  const id = getUserId();
+  return findDocsById(id, did);
+};
