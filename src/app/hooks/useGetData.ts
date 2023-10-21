@@ -14,13 +14,12 @@ export const useGetData = (id: any, url: string) => {
         setState({ data: [], loading: false, error: true });
         return;
       }
-      // "api/docs/get"
       const res = await getDocData(url, id);
 
       if (!res || !res.data) {
         setState({ data: [], loading: false, error: true });
       } else {
-        setState({ data: res.data.documents, loading: false, error: false });
+        setState({ data: res.data, loading: false, error: false });
       }
     };
 
