@@ -7,7 +7,7 @@ const PdfView = ({ pdfData }: any) => {
   console.log(pdfData);
   return (
     <section>
-      <div className="w-full  mt-6 sm:mt-10 mx:4  h-[calc(100vh-1.5rem)] ">
+      <div className="w-full  mt-2 sm:mt-4 mx:4  h-[calc(100vh-1.5rem)] ">
         <div className=" grid grid-rows-2 gap-4 sm:grid-cols-3 sm:gap-1  ">
           <div className="sm:col-span-2">
             <PdfViewPage />
