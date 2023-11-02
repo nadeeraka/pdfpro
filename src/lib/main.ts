@@ -49,10 +49,14 @@ export const redirectToLogin = () => {
 };
 
 export const generateShortName = (name: string): string => {
-  console.log(name.length);
   if (name.length < 32) {
     return name;
   }
 
   return name.split("").slice(0, 30).concat([".", ".", "."]).join("");
+};
+
+export const fileUploadProgress = (size: number): number => {
+  if (size < 10000) return 10000;
+  return size;
 };
