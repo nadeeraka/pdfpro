@@ -1,20 +1,46 @@
-import { generateShortName } from "@/lib/main";
+import { fileUploadProgress, generateShortName } from "@/lib/main";
 import { Cloud, File } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { Progress } from "./progress";
 
 const UploadDropZone = () => {
+  const [isUpload, setisUpload] = useState<boolean>(false);
+  const [isUploadFinished, setisUploadFinished] = useState<boolean>(false);
+  const [uploadProgress, setuploadProgress] = useState<number>(0);
+
+  const validateFills = (file: any) => {
+    console.log(file.size);
+    if (file.size > 4000000) {
+      console.log("too large", file.size - 4000000);
+      return false;
+    }
+    checkFills(file.type);
+  };
   const checkFills = (name: string): boolean => {
     console.log(name);
     if (name === "application/pdf") {
+      setisUpload(true);
       return true;
     }
     return false;
   };
+
+  const intervel = setInterval(() => {
+    if (uploadProgress < 95) {
+      setuploadProgress((prev) => prev + 25);
+    } else {
+      clearInterval(intervel);
+      setuploadProgress(100);
+      return;
+    }
+  }, fileUploadProgress(4000));
+
+  console.log(isUpload);
   return (
     <Dropzone
       multiple={false}
-      onDrop={(acceptedFiles) => checkFills(acceptedFiles[0].type)}
+      onDrop={(acceptedFiles) => validateFills(acceptedFiles[0])}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div className="">
@@ -36,7 +62,12 @@ const UploadDropZone = () => {
                     Upload size upto 4mb
                   </p>
                 </div>
-                {acceptedFiles && acceptedFiles[0] ? (
+                <div className="container mb-2">
+                  {isUpload && (
+                    <Progress value={uploadProgress} className="h-3" />
+                  )}
+                </div>
+                {uploadProgress === 0 && acceptedFiles && acceptedFiles[0] ? (
                   <div className="flex justify-center items-center  divide-x  p-2 border-slate-200 border-2 bg-white  overflow-hidden">
                     <File className=" mx-2  text-blue-500 w-6 " />{" "}
                     {generateShortName(acceptedFiles[0].name)}
