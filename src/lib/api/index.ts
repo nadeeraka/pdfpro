@@ -2,7 +2,7 @@ import axios from "axios";
 import { generateOriginBasedOnEnv } from "../main";
 
 const path = generateOriginBasedOnEnv();
-
+const abortController = new AbortController();
 const queryApi = async (
   uri: string,
   data: any,
@@ -18,7 +18,9 @@ const queryApi = async (
       console.log(res);
       break;
     case "GET":
-      res = await axios.get(`${path}/${uri}`);
+      res = await axios.get(`${path}/${uri}`, {
+        signal: abortController.signal,
+      });
       break;
     default:
       throw new Error(`Unsupported method: ${method}`);
@@ -26,7 +28,7 @@ const queryApi = async (
 
   if (!res.data.success) return false;
 
-  return needData ? res : true;
+  return needData ? res : "";
 };
 
 export const checkUserAvailability = (uri: string, id: string) => {
@@ -45,4 +47,10 @@ export const createData = async (uri: string, data: any) => {
 export const findDocById = (uri: string, uid: string, docId: string) => {
   const data = { uid, docId };
   return queryApi(uri, data, "POST", true);
+};
+
+export const getDocById = (uri: string, docId?: string) => {
+  console.log(`${uri}/${docId}`);
+  const url: string = docId ? `${uri}/${docId}` : `${uri}`;
+  return queryApi(url, "", "GET");
 };

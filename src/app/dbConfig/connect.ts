@@ -1,20 +1,29 @@
 import { getEnv } from "@/lib/main";
 import mongoose from "mongoose";
 
+const handleConnection = (connection: any) => {
+  connection.on("connected", () => {
+    console.log("Database connected!");
+  });
+
+  connection.on("error", () => {
+    console.log("Database not connected!");
+    if (getEnv() === "development") {
+      console.error("Database not connected in development mode!");
+    } else {
+      process.exit();
+    }
+  });
+};
+
 export const connect = (): void => {
   try {
     mongoose.connect(process.env.DATABASE_URL!);
     const connection = mongoose.connection;
-    connection.on("connected", () => {
-      console.log("connected! ");
-    });
-    connection.on("error", () => {
-      console.log("DB not connected! ");
-      getEnv() == "development" ? "DB not connected!" : process.exit();
-    });
+    handleConnection(connection);
   } catch (error) {
     console.error(
-      "Something went wrong in MongoDB! please check your connection!"
+      "Something went wrong with the MongoDB connection! Please check your connection!"
     );
   }
 };

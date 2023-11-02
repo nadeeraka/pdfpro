@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 import { Button } from "./button";
 import { createData } from "@/lib/api";
+import UploadDropZone from "./uplodeDropZone";
 
 export const UploadButton = ({ id }: { id: string }): React.ReactNode => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -50,8 +51,9 @@ export const UploadButton = ({ id }: { id: string }): React.ReactNode => {
       </DialogTrigger>
 
       <DialogContent>
-        example content
-        {/* <UploadDropzone isSubscribed={isSubscribed} /> */}
+        <UploadDropZone
+        // isSubscribed={isSubscribed}
+        />
       </DialogContent>
     </Dialog>
   );
