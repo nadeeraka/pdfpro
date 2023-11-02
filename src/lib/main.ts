@@ -47,3 +47,12 @@ export const redirectToLogin = () => {
     redirect("/login");
   }
 };
+
+export const generateShortName = (name: string): string => {
+  console.log(name.length);
+  if (name.length < 32) {
+    return name;
+  }
+
+  return name.split("").slice(0, 30).concat([".", ".", "."]).join("");
+};
