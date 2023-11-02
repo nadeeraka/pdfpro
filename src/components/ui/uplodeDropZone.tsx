@@ -3,11 +3,14 @@ import { Cloud, File } from "lucide-react";
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { Progress } from "./progress";
+import { useUploadThing } from "@/lib/uploadthings";
 
 const UploadDropZone = () => {
   const [isUpload, setisUpload] = useState<boolean>(false);
   const [isUploadFinished, setisUploadFinished] = useState<boolean>(false);
   const [uploadProgress, setuploadProgress] = useState<number>(0);
+
+  const { startUpload } = useUploadThing("pdfUploader");
 
   const validateFills = (file: any) => {
     console.log(file.size);
@@ -40,7 +43,9 @@ const UploadDropZone = () => {
   return (
     <Dropzone
       multiple={false}
-      onDrop={(acceptedFiles) => validateFills(acceptedFiles[0])}
+      onDrop={(acceptedFiles) => {
+        validateFills(acceptedFiles[0] && startUpload(acceptedFiles));
+      }}
     >
       {({ getRootProps, getInputProps, acceptedFiles }) => (
         <div className="">
