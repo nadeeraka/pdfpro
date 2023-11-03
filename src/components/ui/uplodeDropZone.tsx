@@ -49,13 +49,11 @@ const UploadDropZone = ({ id }: { id: string }) => {
     });
   }, fileUploadProgress(4000));
 
-  console.log(isUploadFinished);
   return (
     <Dropzone
       multiple={false}
       onDrop={async (acceptedFiles) => {
         if (validateFile(acceptedFiles[0])) {
-          console.log("run");
           const res = await startUpload(acceptedFiles);
 
           if (res) {
@@ -70,6 +68,7 @@ const UploadDropZone = ({ id }: { id: string }) => {
               });
             }
             setIsUploadFinished(true);
+
             // crete pdf data in our database
             const data = {
               key: docData.key,
@@ -80,20 +79,20 @@ const UploadDropZone = ({ id }: { id: string }) => {
               size: docData.size,
             };
             const result = await createData("api/docs/create", data);
-            console.log(result);
+            if (result) {
+              setIsUpload(false);
+              setUploadProgress(0);
+              setError({ error: false, message: "" });
+              toast({
+                title: "File Uploaded",
+                description: "File uploaded successfully",
+                variant: "default",
+              });
+            }
 
-            setIsUpload(false);
-            setUploadProgress(0);
-            setError({ error: false, message: "" });
-            toast({
-              title: "File Uploaded",
-              description: "File uploaded successfully",
-              variant: "default",
-            });
             console.log(res);
           }
         } else {
-          console.log("err");
           await toast({
             title: ` ${
               error.message ? error.message : "Something went wrong!"
