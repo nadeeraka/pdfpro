@@ -1,6 +1,6 @@
 import { fileUploadProgress, generateShortName } from "@/lib/main";
 import { Cloud, File } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { Progress } from "./progress";
 import { useUploadThing } from "@/lib/uploadthings";
@@ -14,6 +14,7 @@ const UploadDropZone = ({ id }: { id: string }) => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploadFinished, setIsUploadFinished] = useState<boolean>(false);
   const [error, setError] = useState({ error: false, message: "" });
+  const [data, setdata] = useState("");
 
   const { startUpload } = useUploadThing("pdfUploader");
 
@@ -49,6 +50,8 @@ const UploadDropZone = ({ id }: { id: string }) => {
     });
   }, fileUploadProgress(4000));
 
+  useEffect(() => {}, []);
+
   return (
     <Dropzone
       multiple={false}
@@ -78,22 +81,30 @@ const UploadDropZone = ({ id }: { id: string }) => {
               user_id: id,
               size: docData.size,
             };
-            const result = await createData("api/docs/create", data);
-            if (result) {
-              setIsUpload(false);
-              setUploadProgress(0);
+            try {
+              await createData("api/docs/create", data);
               setError({ error: false, message: "" });
               toast({
                 title: "File Uploaded",
                 description: "File uploaded successfully",
                 variant: "default",
               });
+            } catch (e) {
+              setError({ error: true, message: "File not uploaded" });
+              toast({
+                title: error.message,
+                description: "Please try agin later!",
+                variant: "destructive",
+              });
+              console.log(e);
             }
 
-            console.log(res);
+            // setIsUpload(false);
+            // setUploadProgress(0);
+            // console.log(result);
           }
         } else {
-          await toast({
+          toast({
             title: ` ${
               error.message ? error.message : "Something went wrong!"
             } !`,
