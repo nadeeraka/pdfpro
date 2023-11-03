@@ -16,19 +16,23 @@ const UploadDropZone = () => {
 
   const { startUpload } = useUploadThing("pdfUploader");
 
-  const validateFile = (file: any) => {
+  const validateFile = (file: any): boolean => {
     if (file.size > 4000000) {
       setError({ error: true, message: "File too large" });
+      return false;
     } else {
-      checkFileType(file.type);
+      return checkFileType(file.type);
     }
   };
 
-  const checkFileType = (type: string) => {
+  const checkFileType = (type: string): boolean => {
     if (type === "application/pdf") {
       setIsUpload(true);
+      return true;
     } else {
-      setError({ error: true, message: "File type not supported" });
+      console.log("hit");
+      setError((prev) => ({ error: true, message: "File type not supported" }));
+      return false;
     }
   };
 
@@ -44,17 +48,12 @@ const UploadDropZone = () => {
     });
   }, fileUploadProgress(4000));
 
-  // useEffect(() => {
-  //   clearInterval(intervel);
-  // }, [isUploadFinished]);
-
   console.log(isUploadFinished);
   return (
     <Dropzone
       multiple={false}
       onDrop={async (acceptedFiles) => {
-        validateFile(acceptedFiles[0]);
-        if (error.message === "" && isUpload) {
+        if (validateFile(acceptedFiles[0])) {
           console.log("run");
           const res = await startUpload(acceptedFiles);
 
@@ -64,7 +63,7 @@ const UploadDropZone = () => {
             if (!filename.key) {
               setError({ error: true, message: "File not uploaded" });
               toast({
-                title: ` ${error.message} !`,
+                title: error.message,
                 description: "Please try agin later!",
                 variant: "destructive",
               });
@@ -83,8 +82,10 @@ const UploadDropZone = () => {
           }
         } else {
           console.log("err");
-          toast({
-            title: ` ${error.message} !`,
+          await toast({
+            title: ` ${
+              error.message ? error.message : "Something went wrong!"
+            } !`,
             description: "Please try agin later!",
             variant: "destructive",
           });
