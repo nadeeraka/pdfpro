@@ -19,6 +19,7 @@ const DocumentSchema: Schema = new mongoose.Schema({
     default: () => Date.now(),
   },
   user_id: String,
+  size: Number,
 });
 
 // UserSchema.post("save", function (error: any, doc: any, next: any): any {

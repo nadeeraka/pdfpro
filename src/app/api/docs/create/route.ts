@@ -10,6 +10,7 @@ const createDoc = async ({
   createdAt,
   updatedAt,
   user_id,
+  size,
 }: any) => {
   const docs = new Document({
     name,
@@ -19,6 +20,7 @@ const createDoc = async ({
     createdAt,
     updatedAt,
     user_id,
+    size,
   });
   await docs.save();
   return docs;
@@ -27,7 +29,7 @@ const createDoc = async ({
 export const POST = async (request: NextRequest) => {
   await connect();
   const reqBody = await request.json();
-  const { name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
+  const { name, uploadStatus, url, key, createdAt, updatedAt, user_id, size } =
     reqBody;
 
   // save  data
@@ -40,6 +42,7 @@ export const POST = async (request: NextRequest) => {
       createdAt,
       updatedAt,
       user_id,
+      size,
     });
 
     return NextResponse.json(

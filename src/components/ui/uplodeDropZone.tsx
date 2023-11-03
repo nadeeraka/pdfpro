@@ -7,8 +7,9 @@ import { useUploadThing } from "@/lib/uploadthings";
 import { Toast } from "./toast";
 import { toast } from "./use-toast";
 import { title } from "process";
+import { createData } from "@/lib/api";
 
-const UploadDropZone = () => {
+const UploadDropZone = ({ id }: { id: string }) => {
   const [isUpload, setIsUpload] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploadFinished, setIsUploadFinished] = useState<boolean>(false);
@@ -58,9 +59,9 @@ const UploadDropZone = () => {
           const res = await startUpload(acceptedFiles);
 
           if (res) {
-            const [filename] = res;
-            console.log(filename);
-            if (!filename.key) {
+            const [docData] = res;
+            console.log(docData);
+            if (!docData.key) {
               setError({ error: true, message: "File not uploaded" });
               toast({
                 title: error.message,
@@ -69,6 +70,17 @@ const UploadDropZone = () => {
               });
             }
             setIsUploadFinished(true);
+            // crete pdf data in our database
+            const data = {
+              key: docData.key,
+              name: docData.fileName,
+              uploadStatus: "SUCCESS",
+              url: docData.url,
+              user_id: id,
+              size: docData.size,
+            };
+            const result = await createData("api/docs/create", data);
+            console.log(result);
 
             setIsUpload(false);
             setUploadProgress(0);

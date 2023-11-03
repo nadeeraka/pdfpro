@@ -52,7 +52,8 @@ export const UploadButton = ({ id }: { id: string }): React.ReactNode => {
 
       <DialogContent>
         <UploadDropZone
-        // isSubscribed={isSubscribed}
+          // isSubscribed={isSubscribed}
+          id={id}
         />
       </DialogContent>
     </Dialog>
