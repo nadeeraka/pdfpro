@@ -5,6 +5,7 @@ const { getUser } = getKindeServerSession();
 export const generateOriginBasedOnEnv = (): string => {
   let path: string = "";
   const e = process.env.NODE_ENV;
+
   if (e === "development") {
     path = "http://localhost:3000";
   } else {
@@ -19,6 +20,7 @@ export const getEnv = (): string => {
 
 export const checkUserExists = (): boolean => {
   const user = getUser();
+
   const id = user.id ? user.id : "";
   if (id) {
     return true;
@@ -48,6 +50,11 @@ export const redirectToLogin = () => {
   }
 };
 
+export const generateId = (): string => {
+  const id = Math.floor(Math.random() * 10000000);
+  return id.toString();
+};
+
 export const generateShortName = (name: string): string => {
   if (name.length < 32) {
     return name;
@@ -58,5 +65,12 @@ export const generateShortName = (name: string): string => {
 
 export const fileUploadProgress = (size: number): number => {
   if (size < 10000) return 10000;
+
   return size;
+};
+
+export const fibonacci = (n: number): number => {
+  if (n <= 1) return n;
+
+  return fibonacci(n - 1) + fibonacci(n - 2);
 };

@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Nav from "@/components/nav";
 import Providers from "@/components/Provider";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         )}
       >
         <Nav />
+        <Toaster />
         {children}
       </body>
     </html>
