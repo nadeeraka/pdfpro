@@ -16,11 +16,9 @@ const createDoc = async ({
     name,
     uploadStatus,
     url,
-    key,
-    createdAt,
-    updatedAt,
-    user_id,
+    // key,
     size,
+    user_id,
   });
   await docs.save();
   return docs;
@@ -29,18 +27,16 @@ const createDoc = async ({
 export const POST = async (request: NextRequest) => {
   await connect();
   const reqBody = await request.json();
-  const { name, uploadStatus, url, key, createdAt, updatedAt, user_id, size } =
-    reqBody;
+  const { name, uploadStatus, url, key, user_id, size } = reqBody;
 
   // save  data
   try {
+    console.log(name, uploadStatus, url, key, user_id, size);
     const newDoc = await createDoc({
       name,
       uploadStatus,
       url,
       key,
-      createdAt,
-      updatedAt,
       user_id,
       size,
     });

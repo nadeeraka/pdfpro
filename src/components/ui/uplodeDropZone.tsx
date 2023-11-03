@@ -1,22 +1,25 @@
-import { fileUploadProgress, generateShortName } from "@/lib/main";
+import {
+  fileUploadProgress,
+  generateShortName,
+  removeFileAbb,
+} from "@/lib/main";
 import { Cloud, File } from "lucide-react";
-import React, { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { Progress } from "./progress";
 import { useUploadThing } from "@/lib/uploadthings";
-import { Toast } from "./toast";
 import { toast } from "./use-toast";
-import { title } from "process";
 import { createData } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 const UploadDropZone = ({ id }: { id: string }) => {
   const [isUpload, setIsUpload] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploadFinished, setIsUploadFinished] = useState<boolean>(false);
   const [error, setError] = useState({ error: false, message: "" });
-  const [data, setdata] = useState("");
 
   const { startUpload } = useUploadThing("pdfUploader");
+  const router = useRouter();
 
   const validateFile = (file: any): boolean => {
     if (file.size > 4000000) {
@@ -33,7 +36,7 @@ const UploadDropZone = ({ id }: { id: string }) => {
       return true;
     } else {
       console.log("hit");
-      setError((prev) => ({ error: true, message: "File type not supported" }));
+      setError(() => ({ error: true, message: "File type not supported" }));
       return false;
     }
   };
@@ -48,9 +51,7 @@ const UploadDropZone = ({ id }: { id: string }) => {
       }
       return prev + 25;
     });
-  }, fileUploadProgress(4000));
-
-  useEffect(() => {}, []);
+  }, fileUploadProgress(3000));
 
   return (
     <Dropzone
@@ -73,8 +74,10 @@ const UploadDropZone = ({ id }: { id: string }) => {
             setIsUploadFinished(true);
 
             // crete pdf data in our database
+            // TODO key casting error should fix
+
             const data = {
-              key: docData.key,
+              key: removeFileAbb(docData.key),
               name: docData.fileName,
               uploadStatus: "SUCCESS",
               url: docData.url,
@@ -89,6 +92,9 @@ const UploadDropZone = ({ id }: { id: string }) => {
                 description: "File uploaded successfully",
                 variant: "default",
               });
+
+              // redirect to dashboard
+              router.push(`/dashboard/${docData.key}`);
             } catch (e) {
               setError({ error: true, message: "File not uploaded" });
               toast({
@@ -98,10 +104,6 @@ const UploadDropZone = ({ id }: { id: string }) => {
               });
               console.log(e);
             }
-
-            // setIsUpload(false);
-            // setUploadProgress(0);
-            // console.log(result);
           }
         } else {
           toast({
@@ -114,7 +116,7 @@ const UploadDropZone = ({ id }: { id: string }) => {
         }
       }}
     >
-      {({ getRootProps, getInputProps, acceptedFiles }) => (
+      {({ getRootProps, acceptedFiles }) => (
         <div className="">
           <div {...getRootProps()}>
             <div className="w-full h-64 flex justify-center items-center">

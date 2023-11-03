@@ -74,3 +74,9 @@ export const fibonacci = (n: number): number => {
 
   return fibonacci(n - 1) + fibonacci(n - 2);
 };
+
+// fix server concat error
+
+export const removeFileAbb = (fileName: string): string => {
+  return fileName.replace(".pdf", "");
+};
