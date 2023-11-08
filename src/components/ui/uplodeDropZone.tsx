@@ -1,64 +1,137 @@
-import { fileUploadProgress, generateShortName } from "@/lib/main";
+import {
+  fileUploadProgress,
+  generateShortName,
+  removeFileAbb,
+} from "@/lib/main";
 import { Cloud, File } from "lucide-react";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
 import { Progress } from "./progress";
+import { useUploadThing } from "@/lib/uploadthings";
+import { toast } from "./use-toast";
+import { createData } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
-const UploadDropZone = () => {
-  const [isUpload, setisUpload] = useState<boolean>(false);
-  const [isUploadFinished, setisUploadFinished] = useState<boolean>(false);
-  const [uploadProgress, setuploadProgress] = useState<number>(0);
+const UploadDropZone = ({ id }: { id: string }) => {
+  const [isUpload, setIsUpload] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isUploadFinished, setIsUploadFinished] = useState<boolean>(false);
+  const [error, setError] = useState({ error: false, message: "" });
 
-  const validateFills = (file: any) => {
-    console.log(file.size);
+  const { startUpload } = useUploadThing("pdfUploader");
+  const router = useRouter();
+
+  const validateFile = (file: any): boolean => {
     if (file.size > 4000000) {
-      console.log("too large", file.size - 4000000);
+      setError({ error: true, message: "File too large" });
+      return false;
+    } else {
+      return checkFileType(file.type);
+    }
+  };
+
+  const checkFileType = (type: string): boolean => {
+    if (type === "application/pdf") {
+      setIsUpload(true);
+      return true;
+    } else {
+      console.log("hit");
+      setError(() => ({ error: true, message: "File type not supported" }));
       return false;
     }
-    checkFills(file.type);
-  };
-  const checkFills = (name: string): boolean => {
-    console.log(name);
-    if (name === "application/pdf") {
-      setisUpload(true);
-      return true;
-    }
-    return false;
   };
 
   const intervel = setInterval(() => {
-    if (uploadProgress < 95) {
-      setuploadProgress((prev) => prev + 25);
-    } else {
-      clearInterval(intervel);
-      setuploadProgress(100);
-      return;
-    }
-  }, fileUploadProgress(4000));
+    setUploadProgress((prev: number) => {
+      if (prev === 95) {
+        setTimeout("", 1000);
 
-  console.log(isUpload);
+        clearInterval(intervel);
+        return prev + 5;
+      }
+      return prev + 25;
+    });
+  }, fileUploadProgress(3000));
+
   return (
     <Dropzone
       multiple={false}
-      onDrop={(acceptedFiles) => validateFills(acceptedFiles[0])}
+      onDrop={async (acceptedFiles) => {
+        if (validateFile(acceptedFiles[0])) {
+          const res = await startUpload(acceptedFiles);
+
+          if (res) {
+            const [docData] = res;
+            console.log(docData);
+            if (!docData.key) {
+              setError({ error: true, message: "File not uploaded" });
+              toast({
+                title: error.message,
+                description: "Please try agin later!",
+                variant: "destructive",
+              });
+            }
+            setIsUploadFinished(true);
+
+            // crete pdf data in our database
+            // TODO key casting error should fix
+
+            const data = {
+              key: removeFileAbb(docData.key),
+              name: docData.fileName,
+              uploadStatus: "SUCCESS",
+              url: docData.url,
+              user_id: id,
+              size: docData.size,
+            };
+            try {
+              await createData("api/docs/create", data);
+              setError({ error: false, message: "" });
+              toast({
+                title: "File Uploaded",
+                description: "File uploaded successfully",
+                variant: "default",
+              });
+
+              // redirect to dashboard
+              router.push(`/dashboard/${docData.key}`);
+            } catch (e) {
+              setError({ error: true, message: "File not uploaded" });
+              toast({
+                title: error.message,
+                description: "Please try agin later!",
+                variant: "destructive",
+              });
+              console.log(e);
+            }
+          }
+        } else {
+          toast({
+            title: ` ${
+              error.message ? error.message : "Something went wrong!"
+            } !`,
+            description: "Please try agin later!",
+            variant: "destructive",
+          });
+        }
+      }}
     >
-      {({ getRootProps, getInputProps, acceptedFiles }) => (
+      {({ getRootProps, acceptedFiles }) => (
         <div className="">
           <div {...getRootProps()}>
-            <div className=" w-full h-64 flex justify-center items-center">
+            <div className="w-full h-64 flex justify-center items-center">
               <div className="w-full h-56 flex flex-col items-center border-slate-200 bg-slate-100 border-2 rounded-lg">
                 <div className="p-2 mx-2 text-slate-400 mt-10">
                   <Cloud />
                 </div>
-
                 <label
-                  className="flex flex-col items-center text-center "
+                  className="flex flex-col items-center text-center"
                   htmlFor="drop_zone"
                 >
                   Drop document or click hear to upload file
                 </label>
                 <div className="block">
-                  <p className=" p-2 mx-2 text-slate-400 ">
+                  <p className="p-2 mx-2 text-slate-400">
                     Upload size upto 4mb
                   </p>
                 </div>
@@ -68,8 +141,8 @@ const UploadDropZone = () => {
                   )}
                 </div>
                 {uploadProgress === 0 && acceptedFiles && acceptedFiles[0] ? (
-                  <div className="flex justify-center items-center  divide-x  p-2 border-slate-200 border-2 bg-white  overflow-hidden">
-                    <File className=" mx-2  text-blue-500 w-6 " />{" "}
+                  <div className="flex justify-center items-center divide-x p-2 border-slate-200 border-2 bg-white overflow-hidden">
+                    <File className="mx-2 text-blue-500 w-6" />
                     {generateShortName(acceptedFiles[0].name)}
                   </div>
                 ) : null}

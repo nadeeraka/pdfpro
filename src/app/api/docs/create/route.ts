@@ -10,14 +10,14 @@ const createDoc = async ({
   createdAt,
   updatedAt,
   user_id,
+  size,
 }: any) => {
   const docs = new Document({
     name,
     uploadStatus,
     url,
-    key,
-    createdAt,
-    updatedAt,
+    // key,
+    size,
     user_id,
   });
   await docs.save();
@@ -27,19 +27,18 @@ const createDoc = async ({
 export const POST = async (request: NextRequest) => {
   await connect();
   const reqBody = await request.json();
-  const { name, uploadStatus, url, key, createdAt, updatedAt, user_id } =
-    reqBody;
+  const { name, uploadStatus, url, key, user_id, size } = reqBody;
 
   // save  data
   try {
+    console.log(name, uploadStatus, url, key, user_id, size);
     const newDoc = await createDoc({
       name,
       uploadStatus,
       url,
       key,
-      createdAt,
-      updatedAt,
       user_id,
+      size,
     });
 
     return NextResponse.json(

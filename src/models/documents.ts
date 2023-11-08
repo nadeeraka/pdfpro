@@ -1,7 +1,10 @@
 import mongoose, { Schema } from "mongoose";
+import mongooseLong from "mongoose-long";
+
+mongooseLong(mongoose);
+const Long = mongoose.Schema.Types.Long;
 
 const DocumentSchema: Schema = new mongoose.Schema({
-  // id: Schema.Types.UUID,
   name: String,
   uploadStatus: {
     type: String,
@@ -18,6 +21,8 @@ const DocumentSchema: Schema = new mongoose.Schema({
     type: Date,
     default: () => Date.now(),
   },
+  size: Number,
+  // key: String,
   user_id: String,
 });
 
